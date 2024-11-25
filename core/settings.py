@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     # Cors headers
     "corsheaders",
     # Apps
-    "auth"
+    "accounts",
+    "companies",
 ]
 
 MIDDLEWARE = [
@@ -113,6 +114,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -138,11 +141,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Rest Framework - Config
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': {
-        'rest_framework_simple.authentication.JWTAuthentication',
-    }
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }
 
 SIMPLE_JWT = {
-    "SLIDING_TOKERN_LIFETIME": timedelta(days=1)
+    "SLIDING_TOKEN_LIFETIME": timedelta(days=1)
 }
