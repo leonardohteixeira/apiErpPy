@@ -1,4 +1,4 @@
-from rest_framework.exceptions  import AuthenticationFailed, APIException
+from rest_framework.exceptions import AuthenticationFailed, APIException
 
 from django.contrib.auth.hashers import check_password, make_password
 
@@ -8,7 +8,8 @@ from companies.models import Enterprise, Employee
 
 class Authentication:
     def signin(self, email=None, password=None) -> User:
-        exception_auth = AuthenticationFailed('Email e/ou senha incorretos(s)')
+        exception_auth = AuthenticationFailed('Email e/ou senha incorreto(s)')
+
         user_exists = User.objects.filter(email=email).exists()
 
         if not user_exists:
@@ -31,19 +32,19 @@ class Authentication:
         if not password or password == '':
             raise APIException('O password não deve ser null')
         
+        if type_account == 'employee' and not company_id:
+            raise APIException('O id da empresa não deve ser null')
+
         user = User
         if user.objects.filter(email=email).exists():
             raise APIException('Este email já existe na plataforma')
         
-        if type_account == 'employee' and not company_id:
-            raise APIException('O id da empresa não deve ser null')
-        
         password_hashed = make_password(password)
 
         created_user = user.objects.create(
-            name = name,
-            email = email,
-            password = password_hashed,
+            name=name,
+            email=email,
+            password=password_hashed,
             is_owner=0 if type_account == 'employee' else 1
         )
 
@@ -59,4 +60,4 @@ class Authentication:
                 user_id=created_user.id
             )
 
-            return User
+        return created_user

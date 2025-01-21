@@ -1,6 +1,6 @@
 from accounts.views.base import Base
 from accounts.auth import Authentication
-from accounts.seriaizers import UserSeriaizer
+from accounts.serializers import UserSerializer
 
 from rest_framework.response import Response
 
@@ -12,6 +12,6 @@ class Signup(Base):
 
         user = Authentication.signup(self, name=name, email=email, password=password)
 
-        serializer = UserSeriaizer(user)
+        serializer = UserSerializer(user)
 
         return Response({"user": serializer.data})

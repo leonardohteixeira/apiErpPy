@@ -1,12 +1,12 @@
 from accounts.views.base import Base
 from accounts.auth import Authentication
-from accounts.seriaizers import UserSeriaizer
+from accounts.serializers import UserSerializer
 
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 class Signin(Base):
-    def post(self, request) -> Response:
+    def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
 
@@ -16,7 +16,7 @@ class Signin(Base):
 
         enterprise = self.get_enterprise_user(user.id)
 
-        serializer = UserSeriaizer(user)
+        serializer = UserSerializer(user)
 
         return Response({
             "user": serializer.data,
